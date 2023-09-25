@@ -29,35 +29,24 @@ public class PurchaseController {
         return "create_purchase"; // Redirects to the purchase list page
     }
 
-/*    @PostMapping({"/list_purchase"})
-    public String savePurchase(@ModelAttribute("purchase") Purchase purchase) {
-        // Calculate the total for the new purchase
-        Double totalPurchase = purchase.getPrice() * purchase.getQuantity();
-        purchase.setTotal(totalPurchase);
+    @PostMapping({"/list_purchase"})
+    public String savePurchase(@ModelAttribute("purchase") Purchase purchase, Model model) {
+        // Validar que el código de producto esté dentro del rango permitido (239 - 384)
+        if (isValidProductCode(purchase.getProductCode())) {
+            // Calculate the total for the new purchase
+            Double totalPurchase = purchase.getPrice() * purchase.getQuantity();
+            purchase.setTotal(totalPurchase);
 
-        // Save the purchase in the database
-        service.savePurchase(purchase);
+            // Save the purchase in the database
+            service.savePurchase(purchase);
 
-        return "redirect:/list_purchase";
-    }*/
-@PostMapping({"/list_purchase"})
-public String savePurchase(@ModelAttribute("purchase") Purchase purchase, Model model) {
-    // Validar que el código de producto esté dentro del rango permitido (239 - 384)
-    if (isValidProductCode(purchase.getProductCode())) {
-        // Calculate the total for the new purchase
-        Double totalPurchase = purchase.getPrice() * purchase.getQuantity();
-        purchase.setTotal(totalPurchase);
-
-        // Save the purchase in the database
-        service.savePurchase(purchase);
-
-        return "redirect:/list_purchase";
-    } else {
-        // El código de producto no está dentro del rango permitido, muestra un mensaje de error
-        model.addAttribute("productCodeError", true);
-        return "create_purchase"; // Vuelve al formulario de creación con un mensaje de error
+            return "redirect:/list_purchase";
+        } else {
+            // El código de producto no está dentro del rango permitido, muestra un mensaje de error
+            model.addAttribute("productCodeError", true);
+            return "create_purchase"; // Vuelve al formulario de creación con un mensaje de error
+        }
     }
-}
 
     @GetMapping({"/list_purchase/edit/{id}"})
     public String showEditForm(@PathVariable Long id, Model model){
@@ -65,26 +54,6 @@ public String savePurchase(@ModelAttribute("purchase") Purchase purchase, Model 
         return "edit_purchase"; // Redirects to the purchase list page
     }
 
-  /*  @PostMapping({"/list_purchase/{id}"})
-    public String updatePurchase(@PathVariable Long id, @ModelAttribute("purchase") Purchase purchase) {
-        // Get the current purchase
-        Purchase currentPurchase = service.getPurchaseById(id);
-
-        // Update the fields of the purchase with the new values
-        currentPurchase.setProduct(purchase.getProduct());
-        currentPurchase.setPrice(purchase.getPrice());
-        currentPurchase.setQuantity(purchase.getQuantity());
-        currentPurchase.setProductCode(purchase.getProductCode());
-
-        // Calculate the total for the updated purchase
-        Double totalPurchase = purchase.getPrice() * purchase.getQuantity();
-        currentPurchase.setTotal(totalPurchase);
-
-        // Update the purchase in the database
-        service.updatePurchase(currentPurchase);
-
-        return "redirect:/list_purchase";
-    }*/
 
     @PostMapping({"/list_purchase/{id}"})
     public String updatePurchase(@PathVariable Long id, @ModelAttribute("purchase") Purchase purchase, Model model) {

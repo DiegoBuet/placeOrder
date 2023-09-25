@@ -1,7 +1,9 @@
 package com.app.web.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "list_purchase")
 public class Purchase {
@@ -23,7 +25,7 @@ public class Purchase {
 
     @Column(name = "total", nullable = false)
     private Double total;
-
+/*
     public Purchase() {
     }
 
@@ -96,6 +98,6 @@ public class Purchase {
 
     public void setProductCode(Integer productCode) {
         this.productCode = productCode;
-    }
+    }*/
 
 }
