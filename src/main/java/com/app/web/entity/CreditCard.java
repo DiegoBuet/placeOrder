@@ -4,30 +4,7 @@ import lombok.Data;
 
 @Data
 public class CreditCard {
-    private String cardNumber;
-    private Double balance;
+    private Integer cardNumber;
+    private Double balance =1000.0;
 
-   /* public CreditCard() {
-    }
-
-    public CreditCard(String cardNumber, Double balance) {
-        this.cardNumber = cardNumber;
-        this.balance = balance;
-    }
-
-    public String getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public Double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Double balance) {
-        this.balance = balance;
-    }*/
 }

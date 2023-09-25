@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class StockProductoServicioImpl implements StockProductoServicio {
+public class StockProductServiceImpl {
 
-    @Autowired
+/*    @Autowired
     private StockProductoRepositorio repositorio;
 
-    @Override
-    public StockProducto obtenerStockPorCodigo(Integer codigoProducto) {
-        return repositorio.findByCodigoProducto(codigoProducto);
-    }
+*//*    @Override
+    public StockProducto obtenerStockPorCodigo(Integer stockInventario) {
+        return repositorio.findByCodigoProducto(stockInventario);
+    }*//*
 
     @Override
     public List<StockProducto> listarTodosLosStocks() {
@@ -52,5 +52,5 @@ public class StockProductoServicioImpl implements StockProductoServicio {
                 repositorio.save(nuevoStock);
             }
         }
-    }
+    }*/
 }

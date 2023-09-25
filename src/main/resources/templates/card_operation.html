@@ -25,18 +25,17 @@
                     <div class="form-group">
                         <label>Número de tarjeta:</label>
                         <br>
-                        <input type="number" name="creditCardNumber" class="form-control" required>
+                        <input type="number" name="creditCardNumber" class="form-control" minlength="4" maxlength="4" required th:field="*{creditCard.cardNumber}">
                     </div>
+
                     <br>
                     <br>
-                    <!-- Add a hidden field for the total purchase value -->
+
                     <input type="text" name="totalSum" th:value="${totalSum}">
 
                     <br>
                     <br>
                     <br>
-
-                    <!-- Add more fields for expiration date, CVV, etc., as needed -->
 
                     <button type="submit" class="btn btn-primary">Pagar Compra</button>
                 </form>

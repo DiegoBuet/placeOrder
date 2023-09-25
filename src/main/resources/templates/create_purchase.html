@@ -40,7 +40,7 @@
                     <br>
                     <div class="form-group">
                         <label>Código de producto:</label>
-                        <input type="number" name="product_code" th:field="*{productCode}" class="form-control" placeholder="Ingrese Código de producto fuera de los rangos entre 239-384" required>
+                        <input type="number" name="product_code" th:field="*{productCode}" class="form-control" placeholder="Ingrese Código de producto fuera de los rangos entre 239-384" minlength="3" maxlength="3" required>
                         <span class="error-message">Product code is not allowed.</span>
                     </div>
                     <div id="result" class="text-right"></div>

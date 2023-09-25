@@ -4,7 +4,7 @@ import com.app.web.entity.StockProducto;
 
 import java.util.List;
 
-public interface StockProductoServicio {
+public interface StockProductService {
     StockProducto obtenerStockPorCodigo(Integer codigoProducto);
 
     List<StockProducto> listarTodosLosStocks();

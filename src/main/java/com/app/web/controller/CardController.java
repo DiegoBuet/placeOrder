@@ -12,66 +12,58 @@ import org.springframework.web.bind.annotation.*;
 public class CardController {
     @Autowired
     private PurchaseService service;
+    private CreditCard creditCard;
 
-    @GetMapping({"/list_purchase/new2"}) // This is the route for the credit card form
+    @GetMapping("/list_purchase/new2")
     public String showCreditCardForm(Model model, HttpSession session) {
-        // Get the totalGeneral stored in the session
         Double totalGeneral = (Double) session.getAttribute("totalSum");
 
-        // Check if totalGeneral is not null (in case the user accesses this page directly)
         if (totalGeneral != null) {
             model.addAttribute("totalSum", totalGeneral);
         } else {
-            // Handle the case where totalGeneral is null
+
         }
 
-        // Create an instance of CreditCard with a fixed card number and initial balance
-        CreditCard creditCard = new CreditCard();
-        creditCard.setBalance(1000.0); // Set an initial balance of 1000.0 (or the desired value)
+        creditCard = new CreditCard();
+        creditCard.setBalance(1000.0);
 
         model.addAttribute("creditCard", creditCard);
-        return "card_operation"; // Redirects to the credit card form
+        return "card_operation";
     }
 
-    @PostMapping({"/list_purchase/new2/save"})
-    public String processPaymentForm(@ModelAttribute("creditCard") CreditCard creditCard,
-                                     @RequestParam("totalSum") Double totalPurchase, Model model) {
-        // Validar los números de tarjeta y el saldo antes de procesar el pago
-/*        if (isValidCreditCard(creditCard.getCardNumber(), totalPurchase) && creditCard.getBalance() >= totalPurchase) {
-            // Procesar el pago (deducir el total del saldo de la tarjeta)
-            creditCard.setBalance(creditCard.getBalance() - totalPurchase);
+@PostMapping("/list_purchase/new2/save")
+public String processPaymentForm(@ModelAttribute("creditCard") CreditCard creditCard,
+                                 @RequestParam("totalSum") Double totalPurchase, Model model) {
 
-            // Puedes guardar la compra en la base de datos si es necesario
+    if (isValidCreditCard(creditCard.getCardNumber(), totalPurchase)) {
 
-            // Redirigir a la página de pago exitoso
-            model.addAttribute("paymentSuccessful", true);
-            return "payment_successful";
-        } else {
-            // Saldo insuficiente o tarjeta inválida, muestra un mensaje de error
-            model.addAttribute("paymentError", true);
-            return "redirect:/payment_successful";
-        }*/
+        creditCard.setBalance(creditCard.getBalance() - totalPurchase);
+
+        model.addAttribute("totalSum", totalPurchase);
+
+        model.addAttribute("paymentSuccessful", true);
         return "payment_successful";
+    } else {
+        // Saldo insuficiente o tarjeta inválida, muestra un mensaje de error
+        model.addAttribute("paymentError", true);
+        return "payment_error";
     }
+}
 
-/*    private boolean isValidCreditCard(String creditCardNumber, Double totalPurchase) {
-        // Validar el número de tarjeta de crédito
-        if (!creditCardNumber.startsWith("4000")) {
-            return false; // El número de tarjeta no comienza con 4000
+
+    private boolean isValidCreditCard(Integer creditCardNumber, Double totalSum) {
+
+        try {
+            if (creditCardNumber < 4111 || creditCardNumber > 4222) {
+                return false;
+            }
+
+            if (totalSum <= 0.0 || totalSum > creditCard.getBalance()) {
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            return false;
         }
-
-        // Validar el rango del número de tarjeta de crédito
-        int cardNumber = Integer.parseInt(creditCardNumber);
-        if (cardNumber < 4111 || cardNumber > 4222) {
-            return false; // El número de tarjeta no está en el rango permitido
-        }
-
-        // Validar el monto total
-        if (totalPurchase <= 0.0) {
-            return false; // El monto total no es mayor que cero
-        }
-
-        return true; // Todas las validaciones pasaron
-    }*/
-
+        return true;
+    }
 }
